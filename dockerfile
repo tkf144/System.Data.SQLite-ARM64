@@ -7,11 +7,12 @@ FROM debian:bookworm-slim AS deps-stage
 			unzip \
 			wget \
 			libtool \
+			libz-dev \
 			gcc-aarch64-linux-gnu
 
 FROM deps-stage as get-source-stage
 
-	ENV SQLITE_SOURCE_ZIP_URL="https://system.data.sqlite.org/blobs/1.0.118.0/sqlite-netFx-source-1.0.118.0.zip"
+	ENV SQLITE_SOURCE_ZIP_URL="https://system.data.sqlite.org/blobs/1.0.119.0/sqlite-netFx-source-1.0.119.0.zip"
 
 	WORKDIR /src
 
@@ -31,7 +32,7 @@ FROM get-source-stage as build-interop-stage
 		&& file /src/bin/2013/Release/bin/libSQLite.Interop.so \
 		&& ldd --version
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-managed-stage
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-managed-stage
 
 	WORKDIR /src
 
